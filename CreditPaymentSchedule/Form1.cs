@@ -12,6 +12,10 @@ namespace CreditPaymentSchedule
 {
     public partial class Form1 : Form
     {
+        CreditInfo CI;
+        DataTable DT;
+        string fileNamePaymentSchedule;
+
         public Form1()
         {
             InitializeComponent();
