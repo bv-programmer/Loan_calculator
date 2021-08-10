@@ -31,6 +31,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -42,12 +43,12 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.labelCred = new System.Windows.Forms.Label();
+            this.labelCredit = new System.Windows.Forms.Label();
             this.labelPercent = new System.Windows.Forms.Label();
             this.labelComis = new System.Windows.Forms.Label();
-            this.labelTotal = new System.Windows.Forms.Label();
-            this.labelPereplata = new System.Windows.Forms.Label();
-            this.labelUdorozh = new System.Windows.Forms.Label();
+            this.labelTotalPayments = new System.Windows.Forms.Label();
+            this.labelOverpay = new System.Windows.Forms.Label();
+            this.labelPriceHikes = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.labelSum = new System.Windows.Forms.Label();
@@ -58,7 +59,6 @@
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.lblFileCreate = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -85,6 +85,13 @@
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
             this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.файлToolStripMenuItem.Text = "Файл";
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.exitToolStripMenuItem.Text = "Выход";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // splitContainer1
             // 
@@ -142,12 +149,12 @@
             this.tableLayoutPanel1.Controls.Add(this.label4, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.label6, 0, 7);
             this.tableLayoutPanel1.Controls.Add(this.label7, 0, 8);
-            this.tableLayoutPanel1.Controls.Add(this.labelCred, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.labelCredit, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.labelPercent, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this.labelComis, 1, 5);
-            this.tableLayoutPanel1.Controls.Add(this.labelTotal, 1, 6);
-            this.tableLayoutPanel1.Controls.Add(this.labelPereplata, 1, 7);
-            this.tableLayoutPanel1.Controls.Add(this.labelUdorozh, 1, 8);
+            this.tableLayoutPanel1.Controls.Add(this.labelTotalPayments, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.labelOverpay, 1, 7);
+            this.tableLayoutPanel1.Controls.Add(this.labelPriceHikes, 1, 8);
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 6);
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.labelSum, 1, 0);
@@ -291,19 +298,19 @@
             this.label7.Text = "Удорожание, %:";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // labelCred
+            // labelCredit
             // 
-            this.labelCred.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.labelCredit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelCred.AutoSize = true;
-            this.labelCred.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelCred.Location = new System.Drawing.Point(129, 58);
-            this.labelCred.Name = "labelCred";
-            this.labelCred.Size = new System.Drawing.Size(118, 20);
-            this.labelCred.TabIndex = 11;
-            this.labelCred.Text = "0";
-            this.labelCred.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelCredit.AutoSize = true;
+            this.labelCredit.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelCredit.Location = new System.Drawing.Point(129, 58);
+            this.labelCredit.Name = "labelCredit";
+            this.labelCredit.Size = new System.Drawing.Size(118, 20);
+            this.labelCredit.TabIndex = 11;
+            this.labelCredit.Text = "0";
+            this.labelCredit.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // labelPercent
             // 
@@ -333,50 +340,50 @@
             this.labelComis.Text = "0";
             this.labelComis.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // labelTotal
+            // labelTotalPayments
             // 
-            this.labelTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.labelTotalPayments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelTotal.AutoSize = true;
-            this.labelTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelTotal.ForeColor = System.Drawing.Color.Red;
-            this.labelTotal.Location = new System.Drawing.Point(129, 138);
-            this.labelTotal.Name = "labelTotal";
-            this.labelTotal.Size = new System.Drawing.Size(118, 30);
-            this.labelTotal.TabIndex = 14;
-            this.labelTotal.Text = "0";
-            this.labelTotal.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelTotalPayments.AutoSize = true;
+            this.labelTotalPayments.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelTotalPayments.ForeColor = System.Drawing.Color.Red;
+            this.labelTotalPayments.Location = new System.Drawing.Point(129, 138);
+            this.labelTotalPayments.Name = "labelTotalPayments";
+            this.labelTotalPayments.Size = new System.Drawing.Size(118, 30);
+            this.labelTotalPayments.TabIndex = 14;
+            this.labelTotalPayments.Text = "0";
+            this.labelTotalPayments.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // labelPereplata
+            // labelOverpay
             // 
-            this.labelPereplata.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.labelOverpay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelPereplata.AutoSize = true;
-            this.labelPereplata.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelPereplata.ForeColor = System.Drawing.Color.Red;
-            this.labelPereplata.Location = new System.Drawing.Point(129, 168);
-            this.labelPereplata.Name = "labelPereplata";
-            this.labelPereplata.Size = new System.Drawing.Size(118, 30);
-            this.labelPereplata.TabIndex = 15;
-            this.labelPereplata.Text = "0";
-            this.labelPereplata.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelOverpay.AutoSize = true;
+            this.labelOverpay.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelOverpay.ForeColor = System.Drawing.Color.Red;
+            this.labelOverpay.Location = new System.Drawing.Point(129, 168);
+            this.labelOverpay.Name = "labelOverpay";
+            this.labelOverpay.Size = new System.Drawing.Size(118, 30);
+            this.labelOverpay.TabIndex = 15;
+            this.labelOverpay.Text = "0";
+            this.labelOverpay.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // labelUdorozh
+            // labelPriceHikes
             // 
-            this.labelUdorozh.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.labelPriceHikes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelUdorozh.AutoSize = true;
-            this.labelUdorozh.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelUdorozh.ForeColor = System.Drawing.Color.Red;
-            this.labelUdorozh.Location = new System.Drawing.Point(129, 198);
-            this.labelUdorozh.Name = "labelUdorozh";
-            this.labelUdorozh.Size = new System.Drawing.Size(118, 30);
-            this.labelUdorozh.TabIndex = 16;
-            this.labelUdorozh.Text = "0";
-            this.labelUdorozh.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelPriceHikes.AutoSize = true;
+            this.labelPriceHikes.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelPriceHikes.ForeColor = System.Drawing.Color.Red;
+            this.labelPriceHikes.Location = new System.Drawing.Point(129, 198);
+            this.labelPriceHikes.Name = "labelPriceHikes";
+            this.labelPriceHikes.Size = new System.Drawing.Size(118, 30);
+            this.labelPriceHikes.TabIndex = 16;
+            this.labelPriceHikes.Text = "0";
+            this.labelPriceHikes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label5
             // 
@@ -509,13 +516,6 @@
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.exitToolStripMenuItem.Text = "Выход";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -560,12 +560,12 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label labelSum;
-        private System.Windows.Forms.Label labelCred;
+        private System.Windows.Forms.Label labelCredit;
         private System.Windows.Forms.Label labelPercent;
         private System.Windows.Forms.Label labelComis;
-        private System.Windows.Forms.Label labelTotal;
-        private System.Windows.Forms.Label labelPereplata;
-        private System.Windows.Forms.Label labelUdorozh;
+        private System.Windows.Forms.Label labelTotalPayments;
+        private System.Windows.Forms.Label labelOverpay;
+        private System.Windows.Forms.Label labelPriceHikes;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label labelFirstPay;

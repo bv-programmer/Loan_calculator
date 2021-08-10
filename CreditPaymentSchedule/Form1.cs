@@ -56,5 +56,45 @@ namespace CreditPaymentSchedule
         {
             
         }
+
+        // вернуть элементам формы значения по умолчанию
+        private void DefaultValuesFormElements()
+        {
+            this.labelSum.Text = "";
+            this.labelFirstPay.Text = "";
+            this.labelCredit.Text = "";
+            this.labelPercent.Text = "";
+            this.labelComis.Text = "";
+            this.labelTotalPayments.Text = "";
+            this.labelOverpay.Text = "";
+            this.labelPriceHikes.Text = "";
+            this.labelInfo.Text = "";
+        }
+
+        public class CreditInfo
+        {
+            public decimal creditValue; // сумма кредита
+            public int creditTerm; // срок кредита
+            public decimal creditRate; // процентная ставка
+            public decimal firstPay; // первоначальный платеж
+            public decimal onetimeComiss; // единоразовая комиссия        
+            public int bodyPayTerm; // очередность уплаты тела кредита
+            public int percentPayTerm; // очередность уплаты процентов
+            public int comissionTime; // срок уплаты единоразовой комиссии
+            public bool empty; // заполнены ли все поля
+
+            public CreditInfo(decimal v = 1000, int cT = 1, decimal cR = 10, decimal fP = 0, decimal oTC = 0, int bPT = 1, int pPT = 1, int cmT = 0, bool em = true)
+            {
+                this.creditValue = v;
+                this.creditTerm = cT;
+                this.creditRate = cR;
+                this.firstPay = fP;
+                this.onetimeComiss = oTC;
+                this.bodyPayTerm = bPT;
+                this.percentPayTerm = pPT;
+                this.comissionTime = cmT;
+                this.empty = em;
+            }
+        }
     }
 }
