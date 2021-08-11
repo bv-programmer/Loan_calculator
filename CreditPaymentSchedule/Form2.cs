@@ -92,42 +92,117 @@ namespace CreditPaymentSchedule
 
         private void textBoxValue_Leave(object sender, EventArgs e)
         {
-       
+            double d = 0.0;
+            try
+            {
+                d = Convert.ToDouble(this.textBoxValue.Text);
+                this.errorProvider1.SetError(this.textBoxValue, "");
+                flagValue = false;
+            }
+            catch
+            {
+                this.errorProvider1.SetError(this.textBoxValue, "Не введено значение или ошибка ввода");
+                flagValue = true;
+            }
         }
 
         private void textBoxRate_Leave(object sender, EventArgs e)
         {
-       
+            double d = 0.0;
+            try
+            {
+                string replace = this.textBoxRate.Text.Replace('.', ',');
+                d = Convert.ToDouble(replace);
+                this.errorProvider1.SetError(this.textBoxRate, "");
+                flagRate = false;
+            }
+            catch
+            {
+                this.errorProvider1.SetError(this.textBoxRate, "Не введено значение или ошибка ввода");
+                flagRate = true;
+            }
         }
 
         private void comboBoxTerms_Leave(object sender, EventArgs e)
         {
-            
+            if (this.comboBoxTerms.Text == "выберите")
+            {
+                this.errorProvider1.SetError(this.comboBoxTerms, "Не указан срок кредитования");
+            }
+            else
+            {
+                this.errorProvider1.SetError(this.comboBoxTerms, "");
+            }
         }
 
         private void comboBoxBodyPay_Leave(object sender, EventArgs e)
         {
-            
+            if (this.comboBoxBodyPay.Text == "выберите")
+            {
+                this.errorProvider1.SetError(this.comboBoxBodyPay, "Не указана периодичность оплаты");
+            }
+            else
+            {
+                this.errorProvider1.SetError(this.comboBoxBodyPay, "");
+            }
         }
 
         private void comboBoxPercentPay_Leave(object sender, EventArgs e)
         {
-            
+            if (this.comboBoxPercentPay.Text == "выберите")
+            {
+                this.errorProvider1.SetError(this.comboBoxPercentPay, "Не указана периодичность оплаты");
+            }
+            else
+            {
+                this.errorProvider1.SetError(this.comboBoxPercentPay, "");
+            }
         }
 
         private void comboBoxTermsComis_Leave(object sender, EventArgs e)
         {
-            
+            if (this.comboBoxTermsComis.Text == "выберите")
+            {
+                this.errorProvider1.SetError(this.comboBoxTermsComis, "Не указано количество платежей по комиссии");
+            }
+            else
+            {
+                this.errorProvider1.SetError(this.comboBoxTermsComis, "");
+            }
         }
 
         private void textBoxFirstPay_Leave(object sender, EventArgs e)
         {
-            
+            double d = 0.0;
+            try
+            {
+                string replace = this.textBoxFirstPay.Text.Replace('.', ',');
+                d = Convert.ToDouble(replace);
+                this.errorProvider1.SetError(this.textBoxFirstPay, "");
+                flagFirstPay = false;
+            }
+            catch
+            {
+                this.errorProvider1.SetError(this.textBoxFirstPay, "Не введено значение или ошибка ввода");
+                flagFirstPay = true;
+            }
         }
 
         private void textBoxComis_Leave(object sender, EventArgs e)
         {
-            
+            double d = 0.0;
+            try
+            {
+                string replace = this.textBoxComis.Text.Replace('.', ',');
+                d = Convert.ToDouble(replace);
+                this.errorProvider1.SetError(this.textBoxComis, "");
+                flagComis = false;
+            }
+            catch
+            {
+                this.errorProvider1.SetError(this.textBoxComis, "Не введено значение или ошибка ввода");
+                flagComis = true;
+            }
         }
 
         private void comboBox_Click(object sender, EventArgs e) // распахивание комбобокса при клике на нем
