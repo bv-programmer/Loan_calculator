@@ -12,9 +12,30 @@ namespace CreditPaymentSchedule
 {
     public partial class Form2 : Form
     {
+        public IndividualCreditTerms ICT;
+        private bool flagValue, flagRate, flagFirstPay, flagComis;
+
         public Form2()
         {
             InitializeComponent();
+            
+            flagValue = false;
+            flagRate = false;
+            flagFirstPay = false;
+            flagComis = false;
+            this.comboBoxFirstPay.Enabled = false;
+            this.textBoxFirstPay.Enabled = false;
+            this.comboBoxComis.Enabled = false;
+            this.textBoxComis.Enabled = false;
+            this.label6.Enabled = false;
+            this.comboBoxTermsComis.Enabled = false;
+
+            int step = 12;
+            for (int i = 0; i < 75; i += 3)
+            {
+                this.comboBoxTerms.Items.Add(step + i);
+            }
+            ICT = new IndividualCreditTerms();
         }
 
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)
@@ -85,5 +106,13 @@ namespace CreditPaymentSchedule
         {
            
         }
-    }    
+    }
+
+    // хранить индивидуальные параметры кредита введенные в текстбоксы
+    public class IndividualCreditTerms
+    {
+        public decimal rate { get; set; }
+        public decimal pay { get; set; }
+        public decimal comis { get; set; }
+    }
 }
