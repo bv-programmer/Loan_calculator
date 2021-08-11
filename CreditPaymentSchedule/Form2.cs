@@ -45,31 +45,59 @@ namespace CreditPaymentSchedule
 
         private void checkBoxFirstPay_CheckedChanged(object sender, EventArgs e)
         {
-            
+            if (this.checkBoxFirstPay.Checked)
+                this.comboBoxFirstPay.Enabled = true;
+            else
+            {
+                this.comboBoxFirstPay.SelectedIndex = -1;
+                this.comboBoxFirstPay.Enabled = false;
+                this.textBoxFirstPay.Enabled = false;
+            }
         }
 
         private void comboBoxFirstPay_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (this.comboBoxFirstPay.SelectedIndex != -1)
+                this.textBoxFirstPay.Enabled = true;
+            else
+                this.textBoxFirstPay.Enabled = false;
         }
 
         private void checkBoxComis_CheckedChanged(object sender, EventArgs e)
         {
-            
+            if (this.checkBoxComis.Checked)
+            {
+                this.comboBoxComis.Enabled = true;
+                this.label6.Enabled = true;
+                this.comboBoxTermsComis.Enabled = true;
+            }
+            else
+            {
+                this.comboBoxComis.SelectedIndex = -1;
+                this.comboBoxComis.Enabled = false;
+                this.textBoxComis.Enabled = false;
+
+                this.label6.Enabled = false;
+                this.comboBoxTermsComis.Enabled = false;
+            }
         }
 
         private void comboBoxComis_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+            if (this.comboBoxComis.SelectedIndex != -1)
+                this.textBoxComis.Enabled = true;
+            else
+                this.textBoxComis.Enabled = false;
         }
 
         private void textBoxValue_Leave(object sender, EventArgs e)
         {
-            
+       
         }
 
         private void textBoxRate_Leave(object sender, EventArgs e)
         {
-            
+       
         }
 
         private void comboBoxTerms_Leave(object sender, EventArgs e)
