@@ -40,7 +40,122 @@ namespace CreditPaymentSchedule
 
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)
         {
-           
+            if (this.DialogResult != DialogResult.OK) return;
+            // не введена сумма
+            if (this.textBoxValue.Text == "" || flagValue)
+            {
+                this.errorProvider1.SetError(this.textBoxValue, "Не введено значение или ошибка в значении");
+                e.Cancel = true;
+            }
+            else
+                this.errorProvider1.SetError(this.textBoxValue, "");
+
+            // не указан срок кредита
+            if (this.comboBoxTerms.SelectedIndex == -1)
+            {
+                this.errorProvider1.SetError(this.comboBoxTerms, "Не указан срок кредитования");
+                e.Cancel = true;
+            }
+            else
+                this.errorProvider1.SetError(this.comboBoxTerms, "");
+
+            // не введена процентная ставка
+            if (this.textBoxRate.Text == "" || flagRate)
+            {
+                this.errorProvider1.SetError(this.textBoxRate, "Не введено значение или ошибка в значении");
+                e.Cancel = true;
+            }
+            else
+                this.errorProvider1.SetError(this.textBoxRate, "");
+
+            // не указан первоначальный взнос
+            if (this.checkBoxFirstPay.Checked && (this.comboBoxFirstPay.SelectedIndex == -1 || this.textBoxFirstPay.Text == "") || flagFirstPay)
+            {
+                this.errorProvider1.SetError(this.textBoxFirstPay, "Не введено значение или ошибка в значении");
+                e.Cancel = true;
+            }
+            else
+                this.errorProvider1.SetError(this.textBoxFirstPay, "");
+
+            // не указана комиссия
+            if (this.checkBoxComis.Checked && (this.comboBoxComis.SelectedIndex == -1 || this.textBoxComis.Text == "") || flagComis)
+            {
+                this.errorProvider1.SetError(this.textBoxComis, "Не введено значение или ошибка в значении");
+                e.Cancel = true;
+            }
+            else
+                this.errorProvider1.SetError(this.textBoxComis, "");
+
+            // не указан срок оплаты платежей по телу крдита
+            if (this.comboBoxBodyPay.SelectedIndex == -1)
+            {
+                this.errorProvider1.SetError(this.comboBoxBodyPay, "Не указана периодичность оплаты");
+                e.Cancel = true;
+            }
+            else
+                this.errorProvider1.SetError(this.comboBoxBodyPay, "");
+
+            // не указан срок платежей по процентам
+            if (this.comboBoxPercentPay.SelectedIndex == -1)
+            {
+                this.errorProvider1.SetError(this.comboBoxPercentPay, "Не указана периодичность оплаты");
+                e.Cancel = true;
+            }
+            else
+                this.errorProvider1.SetError(this.comboBoxPercentPay, "");
+
+            // не указана разбивка платежей по комиссии
+            if (this.checkBoxComis.Checked && this.comboBoxTermsComis.SelectedIndex == -1)
+            {
+                this.errorProvider1.SetError(this.comboBoxTermsComis, "Не указано количество платежей по комиссии");
+                e.Cancel = true;
+            }
+            else
+                this.errorProvider1.SetError(this.comboBoxTermsComis, "");
+
+            if (this.comboBoxFirstPay.SelectedIndex == 1)
+            {
+                try
+                {
+                    string replace = this.textBoxFirstPay.Text.Replace('.', ',');
+                    decimal d = Convert.ToDecimal(replace) / 100;
+                    ICT.pay = d;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка ввода первоначального платежа! " + ex.Message);
+                }
+                //Console.WriteLine("Form2:textBoxFirstPay = {0}", (string.Format("{0:N2}", PD.pay)));
+            }
+
+            if (this.textBoxRate.Text != "")
+            {
+                try
+                {
+                    string replace = this.textBoxRate.Text.Replace('.', ',');
+                    ICT.rate = Convert.ToDecimal(replace) / 100;
+                    //Console.WriteLine("Form2:textBoxRate = {0}", (string.Format("{0:N2}", PD.rate)));
+                }
+                catch
+                {
+                    flagRate = true;
+                }
+            }
+
+            if (this.comboBoxComis.SelectedIndex == 1)
+            {
+                try
+                {//Console.WriteLine("Form2:comboBoxComis=>selectedIndex = {0}", this.comboBoxComis.SelectedIndex);
+                    string replace = this.textBoxComis.Text.Replace('.', ',');
+                    decimal dc = Convert.ToDecimal(replace) / 100;
+                    ICT.comis = dc;
+                    //Console.WriteLine("Form2:textBoxComis = {0}", (string.Format("{0:N2}", PD.comis)));
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка ввода комиссионного платежа! " + ex.Message);
+                }
+            }
         }
 
         private void checkBoxFirstPay_CheckedChanged(object sender, EventArgs e)
@@ -205,9 +320,35 @@ namespace CreditPaymentSchedule
             }
         }
 
-        private void comboBox_Click(object sender, EventArgs e) // распахивание комбобокса при клике на нем
+        // распахивание комбобокса при клике на нем
+        private void comboBox_Click(object sender, EventArgs e)
         {
-           
+            ComboBox cmb = (ComboBox)sender;
+            string ident = cmb.Tag.ToString();
+            switch (ident)
+            {
+                case "times":
+                    this.comboBoxTerms.DroppedDown = true;
+                    break;
+                case "firstpay":
+                    this.comboBoxFirstPay.DroppedDown = true;
+                    break;
+                case "onecomis":
+                    this.comboBoxComis.DroppedDown = true;
+                    break;
+                case "telo":
+                    this.comboBoxBodyPay.DroppedDown = true;
+                    break;
+                case "perc":
+                    this.comboBoxPercentPay.DroppedDown = true;
+                    break;
+                case "comis":
+                    this.comboBoxTermsComis.DroppedDown = true;
+                    break;
+                default:
+                    MessageBox.Show("Что-то пошло не так");
+                    break;
+            }
         }
     }
 
