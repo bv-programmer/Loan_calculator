@@ -74,7 +74,7 @@ namespace CreditPaymentSchedule
             CI.empty = false;
         }
 
-        // cформировать структуры таблицы с графиком платежей
+        // cформировать структуру таблицы с графиком платежей
         private void MakeTableStructure()
         {
             DT = new System.Data.DataTable();

@@ -41,6 +41,7 @@ namespace CreditPaymentSchedule
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (this.DialogResult != DialogResult.OK) return;
+            
             // не введена сумма
             if (this.textBoxValue.Text == "" || flagValue)
             {
@@ -124,8 +125,7 @@ namespace CreditPaymentSchedule
                 catch (Exception ex)
                 {
                     MessageBox.Show("Ошибка ввода первоначального платежа! " + ex.Message);
-                }
-                //Console.WriteLine("Form2:textBoxFirstPay = {0}", (string.Format("{0:N2}", PD.pay)));
+                }                
             }
 
             if (this.textBoxRate.Text != "")
@@ -133,8 +133,7 @@ namespace CreditPaymentSchedule
                 try
                 {
                     string replace = this.textBoxRate.Text.Replace('.', ',');
-                    ICT.rate = Convert.ToDecimal(replace) / 100;
-                    //Console.WriteLine("Form2:textBoxRate = {0}", (string.Format("{0:N2}", PD.rate)));
+                    ICT.rate = Convert.ToDecimal(replace) / 100;                   
                 }
                 catch
                 {
@@ -145,11 +144,10 @@ namespace CreditPaymentSchedule
             if (this.comboBoxComis.SelectedIndex == 1)
             {
                 try
-                {//Console.WriteLine("Form2:comboBoxComis=>selectedIndex = {0}", this.comboBoxComis.SelectedIndex);
+                {
                     string replace = this.textBoxComis.Text.Replace('.', ',');
                     decimal dc = Convert.ToDecimal(replace) / 100;
-                    ICT.comis = dc;
-                    //Console.WriteLine("Form2:textBoxComis = {0}", (string.Format("{0:N2}", PD.comis)));
+                    ICT.comis = dc;                    
                 }
                 catch (Exception ex)
                 {
