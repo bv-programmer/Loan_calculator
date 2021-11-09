@@ -12,7 +12,6 @@ namespace CreditPaymentSchedule
 {
     public partial class Form2 : Form
     {
-        //public IndividualCreditTerms ICT;
         private bool flagValue, flagRate, flagFirstPay, flagComis;
 
         public Form2()
@@ -35,7 +34,6 @@ namespace CreditPaymentSchedule
             {
                 this.comboBoxTerms.Items.Add(step + i);
             }
-            //ICT = new IndividualCreditTerms();
         }
 
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)
@@ -132,7 +130,6 @@ namespace CreditPaymentSchedule
                 {
                     string replace = this.textBoxFirstPay.Text.Replace('.', ',');
                     decimal d = Convert.ToDecimal(replace) / 100;
-                    //ITC.pay = d;
                     IndividualCreditTerms.FirstPay = IndividualCreditTerms.CreditValue * d;
                 }
                 catch (Exception ex)
@@ -146,9 +143,6 @@ namespace CreditPaymentSchedule
                 try
                 {
                     IndividualCreditTerms.Rate = Convert.ToDecimal(this.textBoxRate.Text.Replace('.', ',')) / 100;
-                    //string replace = this.textboxrate.text.replace('.', ',');
-                    //decimal dc = convert.todecimal(replace) / 100;
-                    //ITC.rate = dc;
                 }
                 catch
                 {
@@ -174,7 +168,6 @@ namespace CreditPaymentSchedule
                 {
                     string replace = this.textBoxComis.Text.Replace('.', ',');
                     decimal dc = Convert.ToDecimal(replace) / 100;
-                    //ITC.comis = dc;
                     IndividualCreditTerms.Comission = IndividualCreditTerms.CreditValue * dc;
                 }
                 catch (Exception ex)
@@ -182,8 +175,7 @@ namespace CreditPaymentSchedule
                     MessageBox.Show("Ошибка ввода комиссионного платежа! " + ex.Message);
                 }
             }
-
-            //IndividualCreditTerms.CreditValue = Convert.ToDecimal(this.textBoxValue.Text.Replace('.', ','));
+            
             IndividualCreditTerms.CreditTerm = Convert.ToInt32(this.comboBoxTerms.SelectedItem.ToString());
             IndividualCreditTerms.CreditBodyPayTerm = Convert.ToInt32(this.comboBoxBodyPay.SelectedItem.ToString());
             IndividualCreditTerms.CreditPercentPayTerm = Convert.ToInt32(this.comboBoxPercentPay.SelectedItem.ToString());

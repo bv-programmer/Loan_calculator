@@ -14,7 +14,6 @@ namespace CreditPaymentSchedule
 {
     public partial class Form1 : Form
     {
-        //CreditInfo CI;
         System.Data.DataTable DT;
         string fileNamePaymentSchedule;
 
@@ -23,7 +22,6 @@ namespace CreditPaymentSchedule
             InitializeComponent();
             this.buttonCreate.Visible = false;
             this.buttonCreate.Enabled = false;
-            //CI = new CreditInfo();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -41,38 +39,10 @@ namespace CreditPaymentSchedule
             Form2 F = new Form2();
             if (F.ShowDialog() == DialogResult.Cancel)
             {
-                this.labelInfo.Text = "Нажмите <Новый> для создания нового графика";
-                //CI.empty = true;
+                this.labelInfo.Text = "Нажмите <Новый> для создания нового графика";                
                 IndividualCreditTerms.IsEmptyLines = true;
                 return;
             }
-
-            //CI.creditValue = Convert.ToDecimal(F.textBoxValue.Text);
-            //CI.creditTerm = Convert.ToInt32(F.comboBoxTerms.SelectedItem.ToString());
-            //CI.creditRate = F.ICT.rate;
-
-            //if (F.checkBoxFirstPay.Checked)
-            //{
-            //    if (F.comboBoxFirstPay.SelectedIndex == 1)
-            //        CI.firstPay = CI.creditValue * F.ICT.pay;
-            //    else
-            //        CI.firstPay = Convert.ToDecimal(F.textBoxFirstPay.Text);
-            //}
-
-            //if (F.checkBoxComis.Checked)
-            //{
-            //    if (F.comboBoxComis.SelectedIndex == 1)
-            //        CI.onetimeComiss = CI.creditValue * F.ICT.comis;
-            //    else
-            //        CI.onetimeComiss = Convert.ToDecimal(F.textBoxComis.Text);
-            //}
-
-            //CI.bodyPayTerm = Convert.ToInt32(F.comboBoxBodyPay.SelectedItem.ToString());
-            //CI.percentPayTerm = Convert.ToInt32(F.comboBoxPercentPay.SelectedItem.ToString());
-            //if (F.checkBoxComis.Checked)
-            //    CI.comissionTime = Convert.ToInt32(F.comboBoxTermsComis.SelectedItem.ToString());
-
-            //CI.empty = false;
         }
 
         // cформировать структуру таблицы с графиком платежей
@@ -423,31 +393,5 @@ namespace CreditPaymentSchedule
             this.labelPriceHikes.Text = "";
             this.labelInfo.Text = "";
         }
-
-        //public class CreditInfo
-        //{
-        //    public decimal creditValue; // сумма кредита
-        //    public int creditTerm; // срок кредита
-        //    public decimal creditRate; // процентная ставка
-        //    public decimal firstPay; // первоначальный платеж
-        //    public decimal onetimeComiss; // единоразовая комиссия        
-        //    public int bodyPayTerm; // очередность уплаты тела кредита
-        //    public int percentPayTerm; // очередность уплаты процентов
-        //    public int comissionTime; // срок уплаты единоразовой комиссии
-        //    public bool empty; // заполнены ли все поля
-
-        //    public CreditInfo(decimal v = 1000, int cT = 1, decimal cR = 10, decimal fP = 0, decimal oTC = 0, int bPT = 1, int pPT = 1, int cmT = 0, bool em = true)
-        //    {
-        //        this.creditValue = v;
-        //        this.creditTerm = cT;
-        //        this.creditRate = cR;
-        //        this.firstPay = fP;
-        //        this.onetimeComiss = oTC;
-        //        this.bodyPayTerm = bPT;
-        //        this.percentPayTerm = pPT;
-        //        this.comissionTime = cmT;
-        //        this.empty = em;
-        //    }
-        //}
     }
 }
