@@ -14,7 +14,7 @@ namespace CreditPaymentSchedule
 {
     public partial class Form1 : Form
     {
-        CreditInfo CI;
+        //CreditInfo CI;
         System.Data.DataTable DT;
         string fileNamePaymentSchedule;
 
@@ -23,7 +23,7 @@ namespace CreditPaymentSchedule
             InitializeComponent();
             this.buttonCreate.Visible = false;
             this.buttonCreate.Enabled = false;
-            CI = new CreditInfo();
+            //CI = new CreditInfo();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -42,36 +42,37 @@ namespace CreditPaymentSchedule
             if (F.ShowDialog() == DialogResult.Cancel)
             {
                 this.labelInfo.Text = "Нажмите <Новый> для создания нового графика";
-                CI.empty = true;
+                //CI.empty = true;
+                IndividualCreditTerms.IsEmptyLines = true;
                 return;
             }
 
-            CI.creditValue = Convert.ToDecimal(F.textBoxValue.Text);
-            CI.creditTerm = Convert.ToInt32(F.comboBoxTerms.SelectedItem.ToString());
-            CI.creditRate = F.ICT.rate;
+            //CI.creditValue = Convert.ToDecimal(F.textBoxValue.Text);
+            //CI.creditTerm = Convert.ToInt32(F.comboBoxTerms.SelectedItem.ToString());
+            //CI.creditRate = F.ICT.rate;
 
-            if (F.checkBoxFirstPay.Checked)
-            {
-                if (F.comboBoxFirstPay.SelectedIndex == 1)
-                    CI.firstPay = CI.creditValue * F.ICT.pay;
-                else
-                    CI.firstPay = Convert.ToDecimal(F.textBoxFirstPay.Text);
-            }
+            //if (F.checkBoxFirstPay.Checked)
+            //{
+            //    if (F.comboBoxFirstPay.SelectedIndex == 1)
+            //        CI.firstPay = CI.creditValue * F.ICT.pay;
+            //    else
+            //        CI.firstPay = Convert.ToDecimal(F.textBoxFirstPay.Text);
+            //}
 
-            if (F.checkBoxComis.Checked)
-            {
-                if (F.comboBoxComis.SelectedIndex == 1)
-                    CI.onetimeComiss = CI.creditValue * F.ICT.comis;
-                else
-                    CI.onetimeComiss = Convert.ToDecimal(F.textBoxComis.Text);
-            }
+            //if (F.checkBoxComis.Checked)
+            //{
+            //    if (F.comboBoxComis.SelectedIndex == 1)
+            //        CI.onetimeComiss = CI.creditValue * F.ICT.comis;
+            //    else
+            //        CI.onetimeComiss = Convert.ToDecimal(F.textBoxComis.Text);
+            //}
 
-            CI.bodyPayTerm = Convert.ToInt32(F.comboBoxBodyPay.SelectedItem.ToString());
-            CI.percentPayTerm = Convert.ToInt32(F.comboBoxPercentPay.SelectedItem.ToString());
-            if (F.checkBoxComis.Checked)
-                CI.comissionTime = Convert.ToInt32(F.comboBoxTermsComis.SelectedItem.ToString());
+            //CI.bodyPayTerm = Convert.ToInt32(F.comboBoxBodyPay.SelectedItem.ToString());
+            //CI.percentPayTerm = Convert.ToInt32(F.comboBoxPercentPay.SelectedItem.ToString());
+            //if (F.checkBoxComis.Checked)
+            //    CI.comissionTime = Convert.ToInt32(F.comboBoxTermsComis.SelectedItem.ToString());
 
-            CI.empty = false;
+            //CI.empty = false;
         }
 
         // cформировать структуру таблицы с графиком платежей
@@ -86,7 +87,7 @@ namespace CreditPaymentSchedule
             DataColumn colBodyPay = new DataColumn("Тело кредита", Type.GetType("System.Decimal"));
             DataColumn colPercentPay = new DataColumn("Проценты", Type.GetType("System.Decimal"));
             DataColumn colComission = null;
-            if (CI.onetimeComiss >= 1)
+            if (IndividualCreditTerms.Comission >= 1)
                 colComission = new DataColumn("Комиссия", Type.GetType("System.Decimal"));
             DataColumn colTotalPay = new DataColumn("Итоговый платеж", Type.GetType("System.Decimal"));
 
@@ -94,7 +95,7 @@ namespace CreditPaymentSchedule
             DT.Columns.Add(colRestPay);
             DT.Columns.Add(colBodyPay);
             DT.Columns.Add(colPercentPay);
-            if (CI.onetimeComiss >= 1)
+            if (IndividualCreditTerms.Comission >= 1)
                 DT.Columns.Add(colComission);
             DT.Columns.Add(colTotalPay);
         }
@@ -104,16 +105,16 @@ namespace CreditPaymentSchedule
         {
             if (this.dataGridView1.DataSource != null) return;
 
-            if (CI.empty)
+            if (IndividualCreditTerms.IsEmptyLines)
             {
                 MessageBox.Show("Не указаны параметры кредита\nДля их указания нажмите кнопку <Новый> и заполните поля");
                 return;
             }
 
-            decimal startPrice = CI.creditValue - CI.firstPay;
+            decimal startPrice = IndividualCreditTerms.CreditValue - IndividualCreditTerms.FirstPay;
             decimal cred;
             decimal percent = 0;
-            int tempComisTime = CI.comissionTime;
+            int tempComisTime = IndividualCreditTerms.ComissionPayTime;
             decimal tempStartPrice = startPrice;
 
             decimal total = 0.0m;
@@ -126,18 +127,18 @@ namespace CreditPaymentSchedule
             {
                 DataRow row = DT.NewRow();
                 row[1] = string.Format("{0:N2}", startPrice);
-                if (Convert.ToInt32(row[0].ToString()) % CI.bodyPayTerm == 0)
+                if (Convert.ToInt32(row[0].ToString()) % IndividualCreditTerms.CreditBodyPayTerm == 0)
                 {
-                    cred = tempStartPrice / (CI.creditTerm / CI.bodyPayTerm);
+                    cred = tempStartPrice / (IndividualCreditTerms.CreditTerm / IndividualCreditTerms.CreditBodyPayTerm);
                 }
                 else
                     cred = 0.0m;
 
                 row[2] = string.Format("{0:N2}", cred);
 
-                if (Convert.ToInt32(row[0].ToString()) % CI.percentPayTerm == 0)
+                if (Convert.ToInt32(row[0].ToString()) % IndividualCreditTerms.CreditPercentPayTerm == 0)
                 {
-                    percent = startPrice * (CI.creditRate / 12);
+                    percent = startPrice * (IndividualCreditTerms.Rate / 12);
                 }
                 else
                     percent = 0.0m;
@@ -146,15 +147,16 @@ namespace CreditPaymentSchedule
                 row[3] = string.Format("{0:N2}", percent);
 
 
-                if (CI.onetimeComiss >= 1) // если есть комиссия
+                if (IndividualCreditTerms.Comission >= 1) // если есть комиссия
                 {
-                    if (CI.comissionTime > 0)
+                    int comissionTime = IndividualCreditTerms.ComissionPayTime;
+                    if (comissionTime > 0)
                     {
-                        row[4] = string.Format("{0:N2}", CI.onetimeComiss / tempComisTime);
-                        total = cred + percent + (CI.onetimeComiss / tempComisTime);
+                        row[4] = string.Format("{0:N2}", IndividualCreditTerms.Comission / tempComisTime);
+                        total = cred + percent + (IndividualCreditTerms.Comission / tempComisTime);
 
                         row[5] = string.Format("{0:N2}", total);
-                        CI.comissionTime--;
+                        comissionTime--;
                     }
                     else
                     {
@@ -190,14 +192,14 @@ namespace CreditPaymentSchedule
 
             }
 
-            this.labelSum.Text = string.Format("{0:N2}", CI.creditValue);
-            this.labelFirstPay.Text = string.Format("{0:N2}", CI.firstPay);
+            this.labelSum.Text = string.Format("{0:N2}", IndividualCreditTerms.CreditValue);
+            this.labelFirstPay.Text = string.Format("{0:N2}", IndividualCreditTerms.FirstPay);
             this.labelCredit.Text = string.Format("{0:N2}", sumCredit);
             this.labelPercent.Text = string.Format("{0:N2}", sumPercent);
-            this.labelComis.Text = string.Format("{0:N2}", CI.onetimeComiss);
+            this.labelComis.Text = string.Format("{0:N2}", IndividualCreditTerms.Comission);
             this.labelTotalPayments.Text = string.Format("{0:N2}", sumTotal);
-            this.labelOverpay.Text = string.Format("{0:N2}", sumTotal + CI.firstPay - CI.creditValue);
-            this.labelPriceHikes.Text = string.Format("{0:N1}", (sumTotal + CI.firstPay - CI.creditValue) / CI.creditValue * 100);
+            this.labelOverpay.Text = string.Format("{0:N2}", sumTotal + IndividualCreditTerms.FirstPay - IndividualCreditTerms.CreditValue);
+            this.labelPriceHikes.Text = string.Format("{0:N1}", (sumTotal + IndividualCreditTerms.FirstPay - IndividualCreditTerms.CreditValue) / IndividualCreditTerms.CreditValue * 100);
 
             this.labelInfo.Text = "";
         }
@@ -214,7 +216,7 @@ namespace CreditPaymentSchedule
 
         private void buttonExport_Click(object sender, EventArgs e)
         {
-            if (CI.empty)
+            if (IndividualCreditTerms.IsEmptyLines)
             {
                 MessageBox.Show("Не указаны параметры кредита\nГрафик не сформирован");
                 return;
@@ -277,7 +279,7 @@ namespace CreditPaymentSchedule
             ws.Cells[3, 2] = "Ставка:";
             ws.Cells[4, 2] = "Первоначальный взнос:";
             ws.Cells[2, 3] = this.labelSum.Text;
-            string rt = (CI.creditRate * 100).ToString() + "%";
+            string rt = (IndividualCreditTerms.Rate * 100).ToString() + "%";
             ws.Cells[3, 3] = rt;
             ws.Cells[4, 3] = this.labelFirstPay.Text;
 
@@ -422,30 +424,30 @@ namespace CreditPaymentSchedule
             this.labelInfo.Text = "";
         }
 
-        public class CreditInfo
-        {
-            public decimal creditValue; // сумма кредита
-            public int creditTerm; // срок кредита
-            public decimal creditRate; // процентная ставка
-            public decimal firstPay; // первоначальный платеж
-            public decimal onetimeComiss; // единоразовая комиссия        
-            public int bodyPayTerm; // очередность уплаты тела кредита
-            public int percentPayTerm; // очередность уплаты процентов
-            public int comissionTime; // срок уплаты единоразовой комиссии
-            public bool empty; // заполнены ли все поля
+        //public class CreditInfo
+        //{
+        //    public decimal creditValue; // сумма кредита
+        //    public int creditTerm; // срок кредита
+        //    public decimal creditRate; // процентная ставка
+        //    public decimal firstPay; // первоначальный платеж
+        //    public decimal onetimeComiss; // единоразовая комиссия        
+        //    public int bodyPayTerm; // очередность уплаты тела кредита
+        //    public int percentPayTerm; // очередность уплаты процентов
+        //    public int comissionTime; // срок уплаты единоразовой комиссии
+        //    public bool empty; // заполнены ли все поля
 
-            public CreditInfo(decimal v = 1000, int cT = 1, decimal cR = 10, decimal fP = 0, decimal oTC = 0, int bPT = 1, int pPT = 1, int cmT = 0, bool em = true)
-            {
-                this.creditValue = v;
-                this.creditTerm = cT;
-                this.creditRate = cR;
-                this.firstPay = fP;
-                this.onetimeComiss = oTC;
-                this.bodyPayTerm = bPT;
-                this.percentPayTerm = pPT;
-                this.comissionTime = cmT;
-                this.empty = em;
-            }
-        }
+        //    public CreditInfo(decimal v = 1000, int cT = 1, decimal cR = 10, decimal fP = 0, decimal oTC = 0, int bPT = 1, int pPT = 1, int cmT = 0, bool em = true)
+        //    {
+        //        this.creditValue = v;
+        //        this.creditTerm = cT;
+        //        this.creditRate = cR;
+        //        this.firstPay = fP;
+        //        this.onetimeComiss = oTC;
+        //        this.bodyPayTerm = bPT;
+        //        this.percentPayTerm = pPT;
+        //        this.comissionTime = cmT;
+        //        this.empty = em;
+        //    }
+        //}
     }
 }

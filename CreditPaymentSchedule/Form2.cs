@@ -12,7 +12,7 @@ namespace CreditPaymentSchedule
 {
     public partial class Form2 : Form
     {
-        public IndividualCreditTerms ICT;
+        //public IndividualCreditTerms ICT;
         private bool flagValue, flagRate, flagFirstPay, flagComis;
 
         public Form2()
@@ -35,7 +35,7 @@ namespace CreditPaymentSchedule
             {
                 this.comboBoxTerms.Items.Add(step + i);
             }
-            ICT = new IndividualCreditTerms();
+            //ICT = new IndividualCreditTerms();
         }
 
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)
@@ -114,13 +114,26 @@ namespace CreditPaymentSchedule
             else
                 this.errorProvider1.SetError(this.comboBoxTermsComis, "");
 
+            if (this.comboBoxFirstPay.SelectedIndex == 0)
+            {
+                try
+                {
+                    IndividualCreditTerms.FirstPay = Convert.ToDecimal(this.textBoxFirstPay.Text.Replace('.', ','));                   
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка ввода первоначального платежа! " + ex.Message);
+                }
+            }
+
             if (this.comboBoxFirstPay.SelectedIndex == 1)
             {
                 try
                 {
                     string replace = this.textBoxFirstPay.Text.Replace('.', ',');
                     decimal d = Convert.ToDecimal(replace) / 100;
-                    ICT.pay = d;
+                    //ITC.pay = d;
+                    IndividualCreditTerms.FirstPay = IndividualCreditTerms.CreditValue * d;
                 }
                 catch (Exception ex)
                 {
@@ -132,12 +145,26 @@ namespace CreditPaymentSchedule
             {
                 try
                 {
-                    string replace = this.textBoxRate.Text.Replace('.', ',');
-                    ICT.rate = Convert.ToDecimal(replace) / 100;                   
+                    IndividualCreditTerms.Rate = Convert.ToDecimal(this.textBoxRate.Text.Replace('.', ',')) / 100;
+                    //string replace = this.textboxrate.text.replace('.', ',');
+                    //decimal dc = convert.todecimal(replace) / 100;
+                    //ITC.rate = dc;
                 }
                 catch
                 {
                     flagRate = true;
+                }
+            }
+
+            if (this.comboBoxComis.SelectedIndex == 0)
+            {
+                try
+                {
+                    IndividualCreditTerms.Comission = Convert.ToDecimal(this.textBoxComis.Text.Replace('.', ','));                    
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка ввода комиссионного платежа! " + ex.Message);
                 }
             }
 
@@ -147,13 +174,21 @@ namespace CreditPaymentSchedule
                 {
                     string replace = this.textBoxComis.Text.Replace('.', ',');
                     decimal dc = Convert.ToDecimal(replace) / 100;
-                    ICT.comis = dc;                    
+                    //ITC.comis = dc;
+                    IndividualCreditTerms.Comission = IndividualCreditTerms.CreditValue * dc;
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Ошибка ввода комиссионного платежа! " + ex.Message);
                 }
             }
+
+            //IndividualCreditTerms.CreditValue = Convert.ToDecimal(this.textBoxValue.Text.Replace('.', ','));
+            IndividualCreditTerms.CreditTerm = Convert.ToInt32(this.comboBoxTerms.SelectedItem.ToString());
+            IndividualCreditTerms.CreditBodyPayTerm = Convert.ToInt32(this.comboBoxBodyPay.SelectedItem.ToString());
+            IndividualCreditTerms.CreditPercentPayTerm = Convert.ToInt32(this.comboBoxPercentPay.SelectedItem.ToString());
+            IndividualCreditTerms.ComissionPayTime = Convert.ToInt32(this.comboBoxTermsComis.SelectedItem.ToString());
+            IndividualCreditTerms.IsEmptyLines = false;
         }
 
         private void checkBoxFirstPay_CheckedChanged(object sender, EventArgs e)
@@ -211,6 +246,7 @@ namespace CreditPaymentSchedule
                 d = Convert.ToDouble(this.textBoxValue.Text);
                 this.errorProvider1.SetError(this.textBoxValue, "");
                 flagValue = false;
+                IndividualCreditTerms.CreditValue = Convert.ToDecimal(this.textBoxValue.Text.Replace('.', ','));
             }
             catch
             {
@@ -348,13 +384,5 @@ namespace CreditPaymentSchedule
                     break;
             }
         }
-    }
-
-    // хранить индивидуальные параметры кредита введенные в текстбоксы
-    public class IndividualCreditTerms
-    {
-        public decimal rate { get; set; }
-        public decimal pay { get; set; }
-        public decimal comis { get; set; }
     }
 }
