@@ -84,7 +84,8 @@ namespace CreditPaymentSchedule
             decimal startPrice = IndividualCreditTerms.CreditValue - IndividualCreditTerms.FirstPay;
             decimal cred;
             decimal percent = 0;
-            int tempComisTime = IndividualCreditTerms.ComissionPayTime;
+            int comissionTime = IndividualCreditTerms.ComissionPayTime;
+            int tempComisTime = comissionTime;
             decimal tempStartPrice = startPrice;
 
             decimal total = 0.0m;
@@ -116,10 +117,9 @@ namespace CreditPaymentSchedule
                 sumPercent += percent;
                 row[3] = string.Format("{0:N2}", percent);
 
-
+                
                 if (IndividualCreditTerms.Comission >= 1) // если есть комиссия
-                {
-                    int comissionTime = IndividualCreditTerms.ComissionPayTime;
+                {                    
                     if (comissionTime > 0)
                     {
                         row[4] = string.Format("{0:N2}", IndividualCreditTerms.Comission / tempComisTime);

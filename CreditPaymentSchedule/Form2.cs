@@ -176,11 +176,22 @@ namespace CreditPaymentSchedule
                 }
             }
             
-            IndividualCreditTerms.CreditTerm = Convert.ToInt32(this.comboBoxTerms.SelectedItem.ToString());
-            IndividualCreditTerms.CreditBodyPayTerm = Convert.ToInt32(this.comboBoxBodyPay.SelectedItem.ToString());
-            IndividualCreditTerms.CreditPercentPayTerm = Convert.ToInt32(this.comboBoxPercentPay.SelectedItem.ToString());
-            IndividualCreditTerms.ComissionPayTime = Convert.ToInt32(this.comboBoxTermsComis.SelectedItem.ToString());
-            IndividualCreditTerms.IsEmptyLines = false;
+            try
+            {
+                IndividualCreditTerms.CreditTerm = Convert.ToInt32(this.comboBoxTerms.SelectedItem.ToString());
+                IndividualCreditTerms.CreditBodyPayTerm = Convert.ToInt32(this.comboBoxBodyPay.SelectedItem.ToString());
+                IndividualCreditTerms.CreditPercentPayTerm = Convert.ToInt32(this.comboBoxPercentPay.SelectedItem.ToString());
+                if (this.comboBoxTermsComis.SelectedIndex == -1)
+                    IndividualCreditTerms.ComissionPayTime = 0;
+                else
+                    IndividualCreditTerms.ComissionPayTime = Convert.ToInt32(this.comboBoxTermsComis.SelectedItem.ToString());
+                IndividualCreditTerms.IsEmptyLines = false;
+            }
+            catch
+            {
+                MessageBox.Show("Не введены ключевые данные!");
+            }
+            
         }
 
         private void checkBoxFirstPay_CheckedChanged(object sender, EventArgs e)
